@@ -5,4 +5,7 @@ const userController = require('../controllers/userController');
 // api to handle creation of user details
 router.post('/addUser', userController.postAddUser);
 
+//api to handle the login form
+router.post('/loginUser', userController.postLoginUser);
+
 module.exports = router;
