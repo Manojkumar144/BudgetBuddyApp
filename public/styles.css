@@ -3,7 +3,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ED9ED6;
+    min-height: 100vh;
+    background: url('backgroundImage.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+
 }
 .WelcomeIcon{
     height:50px;
@@ -15,8 +19,10 @@ body {
     width: 300px;
     height:350px;
     padding: 20px;
-    background-color: #7fb7f0;
-    border-radius:4px;
+    border-radius:8px;
+    backdrop-filter: blur(10px);
+    background-color:rgb(248, 194, 122);
+    border :2px solid rgba(255,255,255,.2);
 }
 
 .form-group {
@@ -35,8 +41,11 @@ body {
 
 .btn {
    width: 100%;
+   background-color: rgb(244, 166, 65);
 }
-
+.btn:hover{
+    background-color: #FFE3BB;
+}
 input img{
     height:24px;
 }
@@ -55,6 +64,14 @@ input img{
     background-repeat: no-repeat;
     background-position: 10px center;
     padding-left: 40px; 
+}
+
+.form-control.userName {
+    background-image: url('username.png');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: 10px center; 
+    padding-left: 40px;
 }
 
 h3{
