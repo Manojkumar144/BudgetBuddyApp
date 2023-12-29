@@ -1,5 +1,7 @@
 const User = require('../models/user');
 
+const bcrypt =require('bcrypt');
+
 //Add user details to user table
 exports.postAddUser = async (req, res, next) => {
   console.log('Received form data:', req.body);
@@ -11,18 +13,36 @@ exports.postAddUser = async (req, res, next) => {
     });
 
     if (user) {
-      return res.status(400).json({ error: 'User already exists. Please login!' });
+      return res.status(404).send(`
+      <script>
+        alert("User already exists, Please login!");
+        window.location.href = '/';
+      </script>
+    `);
     }
+  
+    //Randomization of strings
+    // more saltround value leads to less similarity of password but slows down the application
+    const saltRounds=10;
+
+    //encrypt the password before storing it
+    const hashedPassword= await bcrypt.hash(password, saltRounds);
 
     // Create user
     const createdUser = await User.create({
       name,
       email,
-      password
+      password: hashedPassword
     });
     
     console.log('Created user:', createdUser.name);
-    res.redirect('/');
+    // res.redirect('/');
+    return res.status(404).send(`
+        <script>
+          alert("User Created Successfully, Please login!");
+          window.location.href = '/';
+        </script>
+      `);
 
   } catch (err) {
     console.log(err);
@@ -50,9 +70,11 @@ exports.postLoginUser = async (req, res, next) => {
         </script>
       `);
     }
+    
+    const isPassword = await bcrypt.compare(password, user.password);
 
     // Check if the provided password matches the stored password
-    if (user.password !== password) {
+    if (!isPassword) {
 
       // Password doesn't match
       return res.status(401).send(`
