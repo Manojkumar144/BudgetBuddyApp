@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // api to handle creation of user details
-router.post('/addUser', userController.postAddUser);
+router.post('/signUp', userController.postAddUser);
 
 //api to handle the login form
 router.post('/loginUser', userController.postLoginUser);
