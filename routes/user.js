@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const path = require('path');
 
 // api to handle creation of user details
 router.post('/signUp', userController.postAddUser);

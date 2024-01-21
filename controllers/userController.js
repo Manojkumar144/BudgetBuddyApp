@@ -102,18 +102,17 @@ exports.postAddExpense= async (req, res, next) => {
 
   try {
     // Create expense
-    const expense = await Expense.create({
+     await Expense.create({
       amount,
       description,
       category,
     });
-    res.json({
-      expense: {
-        id: expense.id,
-        amount: expense.amount,
-        description: expense.description,
-        category: expense.category,
-      },
+
+    Expense.findAll()
+    .then((expense)=>res.json(expense))
+    .catch(err => {
+      console.log(err);
+      res.status(500).send('Internal Server Error');
     });
     console.log('Expense Added:');
     
