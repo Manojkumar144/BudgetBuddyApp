@@ -1,13 +1,14 @@
-
       async function submitForm() {
     const amount = document.getElementById('amount').value;
     const description = document.getElementById('description').value;
     const category = document.getElementById('category').value;
-
+    
+    const token = localStorage.getItem('accessToken');
     const response = await fetch('/add-expense', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ amount, description, category }),
     });
@@ -60,7 +61,14 @@ function createListItem(expense) {
 }
 
   async function fetchUsers() {
-    const response = await fetch('/api/expense');
+
+    const token =localStorage.getItem('accessToken');
+    const response = await fetch('/api/expense',
+    {
+      headers:{
+        'Authorization': `Bearer ${token}`,
+      },
+    });
     const expenses = await response.json();
     showUserList(expenses);
   }

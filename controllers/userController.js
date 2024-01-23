@@ -1,8 +1,16 @@
+require('dotenv').config(); // to utilize the environment variable in .env file 
 const User = require('../models/user');
 const Expense = require('../models/expense');
 const path =require('path');
-
 const bcrypt =require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+let currentUserId;
+
+function generateToken(id)
+{
+   return jwt.sign({userId :id}, process.env.ACCESS_TOKEN_SECRET);
+}
 
 //Add user details to user table
 exports.postAddUser = async (req, res, next) => {
@@ -86,9 +94,14 @@ exports.postLoginUser = async (req, res, next) => {
       `);
     }
 
+    // Store the current user's ID in the variable
+    currentUserId = user.id;
+
     // Password is valid, user is authenticated
     console.log('Successfully logged in');
-    res.sendFile(path.join(__dirname, '../views','/expense.html'));
+    const accessToken =generateToken(currentUserId);
+    res.json({accessToken});
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -101,19 +114,24 @@ exports.postAddExpense= async (req, res, next) => {
   const { amount, description, category} = req.body;
 
   try {
-    // Create expense
+     const currentUserId = req.user.userId;
+      // Create expense
      await Expense.create({
       amount,
       description,
       category,
+      userId: currentUserId
     });
 
-    Expense.findAll()
+    Expense.findAll({
+      where: { UserId: currentUserId },
+    })
     .then((expense)=>res.json(expense))
     .catch(err => {
       console.log(err);
       res.status(500).send('Internal Server Error');
     });
+
     console.log('Expense Added:');
     
   } catch (err) {
@@ -124,7 +142,7 @@ exports.postAddExpense= async (req, res, next) => {
 
 // get expense details of a user
 exports.getExpenseDetails = (req, res, next) => {
-  Expense.findAll()
+  Expense.findAll({ where: { UserId: currentUserId }})
     .then((expense)=>res.json(expense))
     .catch(err => {
       console.log(err);
@@ -175,4 +193,8 @@ exports.deleteExpense = async (req, res) => {
     console.error('Error deleting expense:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+};
+
+exports.getDashboard = (req, res) => {
+  res.sendFile(path.join(__dirname, '../views', '/expense.html'));
 };

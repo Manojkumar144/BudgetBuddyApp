@@ -1,6 +1,9 @@
 const path = require ('path');
 const express = require('express');
 const sequelize = require('./util/database');
+const User = require('./models/user');
+const Expense = require('./models/expense');
+
 
 const app = express();
 const port = 3000;
@@ -23,6 +26,9 @@ app.get('/', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 // Synchronize models with the database
 sequelize.sync()
