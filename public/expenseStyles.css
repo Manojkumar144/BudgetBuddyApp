@@ -62,3 +62,16 @@ button {
     overflow: auto;
     max-height: 300px; 
 }
+
+#buyBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(244, 166, 65);
+    color:black;
+}
+
+#buyBtn:hover{
+   background-color: #FE7A36;
+   color:white;
+}

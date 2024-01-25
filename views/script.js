@@ -1,3 +1,5 @@
+//const Razorpay = require("razorpay");
+
       async function submitForm() {
     const amount = document.getElementById('amount').value;
     const description = document.getElementById('description').value;
@@ -115,3 +117,55 @@ if (confirmDelete) {
 
 // Fetch initial user list on page load
   fetchUsers();
+
+
+  document.getElementById('buyBtn').onclick = async function (e) {
+    try {
+      const token = localStorage.getItem('accessToken');
+      console.log('Token', token);
+      const response = await fetch('/premium', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      console.log('Response...', response)
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+  
+        var options = {
+          "key": result.data.key_id,
+          "order_id": result.data.order.id,
+          "handler": async function (response) {
+            await fetch('/updatetransactionstatus', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+              },
+              body: { order_id: options.order_id, payment_id: response.payment_id },
+            });
+            alert('You are a premium user now');
+          }
+        };
+  
+        const rzpl = new Razorpay(options);
+        rzpl.open();
+        e.preventDefault();
+  
+        rzpl.on('payment.failed', function (response) {
+          console.log(response);
+        });
+      } else {
+        console.error(`Failed to fetch premium data. Status: ${response.status}`);
+        // Handle non-OK responses here (e.g., show an error message to the user)
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      // Handle unexpected errors here
+    }
+  };
+  
+
+  
+  
