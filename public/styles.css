@@ -1,0 +1,100 @@
+body {
+    height: 100vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: url('backgroundImage.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+
+}
+.WelcomeIcon{
+    height:50px;
+    display: flex;
+    margin:auto;
+}
+
+.main-container {
+    width: 300px;
+    height:350px;
+    padding: 20px;
+    border-radius:8px;
+    backdrop-filter: blur(10px);
+    background-color:rgb(248, 194, 122);
+    border :2px solid rgba(255,255,255,.2);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.btn {
+   width: 100%;
+   background-color: rgb(244, 166, 65);
+}
+.btn:hover{
+    background-color: #FFE3BB;
+}
+input img{
+    height:24px;
+}
+
+.form-control.emailIcon {
+    background-image: url('emailIcon.png');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 10px center; 
+    padding-left: 40px;
+}
+
+.form-control.passwordIcon {
+    background-image: url('PasswordIcon.png');
+    background-size: 20px; 
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    padding-left: 40px; 
+}
+
+.form-control.userName {
+    background-image: url('username.png');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: 10px center; 
+    padding-left: 40px;
+}
+
+h3{
+    text-align:center;
+    margin-bottom: 20px;
+}
+
+small{
+    margin-top:20px;
+    display: flex;
+    justify-content: center;
+}
+.arrow{
+    width:20px;
+    background-color: transparent;
+}
+
+.account{
+color:black;
+text-decoration: none;
+cursor: pointer;
+}
+
+.account:hover{
+    color:white;
+}
