@@ -20,6 +20,10 @@ const Expense = sequelize.define('expense', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    totalexpenses: {
+        type: Sequelize.DECIMAL(10, 2),
+        defaultValue: 0
+    },
 });
 
 

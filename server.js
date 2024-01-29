@@ -17,6 +17,8 @@ app.use(express.json());
 
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/purchase'));
+app.use('/', require('./routes/premium'));
+
 
 
 app.get('/', async (req, res) => {

@@ -108,12 +108,18 @@ exports.postAddExpense= async (req, res, next) => {
   const { amount, description, category} = req.body;
   
   try {
+    //to get the total expense of a user.
+    const totalexpenses = await Expense.sum('amount', {
+      where: { userId: req.user.id },
+    });
+    
       // Create expense
      await Expense.create({
       amount,
       description,
       category,
-      userId: req.user.id
+      userId: req.user.id,
+      totalexpenses: totalexpenses + parseFloat(amount)
     });
 
    const expenses= Expense.findAll({

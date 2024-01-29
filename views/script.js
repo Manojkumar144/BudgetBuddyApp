@@ -155,8 +155,36 @@ document.getElementById('buyBtn').onclick = async function (e) {
   } 
   
 
+  document.getElementById('LeaderboardBtn').onclick = async function (e) {
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.get('/premium/leaderboard', {
+        headers: { "Authorization": token }
+      });
+      console.log('Response...', response);
+    
+      const leaderboardDetails = response.data.leaderboardData; // Assuming the leaderboard data is in the 'leaderboard' property
+      const leaderboard = document.getElementById('leaderboard');
+      leaderboard.innerHTML = '';
+      const ul = document.createElement('ul');
+    
+      // Iterate through the array of leaderboard details
+      leaderboardDetails.forEach((leaderboardItem) => {
+        const li = createLeaderboardDetails(leaderboardItem);
+        ul.appendChild(li);
+      });
+    
+      // Append the new ul to the existing leaderboard element
+      leaderboard.appendChild(ul);
+    }
 
-
+    function createLeaderboardDetails(leaderboardData) {
+      const li = document.createElement('li');
+      const totalExpense =parseFloat(leaderboardData.totalExpenses).toFixed(2);
+      li.textContent = `${leaderboardData.name} - ${totalExpense} `;
+      li.classList.add('d-flex');
+      
+      return li;
+      }
 
 
 
