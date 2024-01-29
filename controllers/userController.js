@@ -5,7 +5,6 @@ const path =require('path');
 const bcrypt =require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-let currentUserId;
 
 function generateToken(id)
 {
@@ -94,14 +93,9 @@ exports.postLoginUser = async (req, res, next) => {
       `);
     }
 
-    // Store the current user's ID in the variable
-    currentUserId = user.id;
-
     // Password is valid, user is authenticated
     console.log('Successfully logged in');
-    const accessToken =generateToken(currentUserId);
-    res.json({accessToken});
-
+    res.status(200).json({success: true, message:`User Logged in succesfully`, accessToken: generateToken(user.id)})
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -112,43 +106,41 @@ exports.postLoginUser = async (req, res, next) => {
 exports.postAddExpense= async (req, res, next) => {
   console.log('Received form data:', req.body);
   const { amount, description, category} = req.body;
-
+  
   try {
-     const currentUserId = req.user.userId;
       // Create expense
      await Expense.create({
       amount,
       description,
       category,
-      userId: currentUserId
+      userId: req.user.id
     });
 
-    Expense.findAll({
-      where: { UserId: currentUserId },
-    })
-    .then((expense)=>res.json(expense))
-    .catch(err => {
+   const expenses= Expense.findAll({
+      where: { userId: req.user.id },
+    });
+    res.json(expenses)
+    console.log('Expense Added:');
+  }
+    catch (err) {
       console.log(err);
       res.status(500).send('Internal Server Error');
-    });
+    }  
+  } 
 
-    console.log('Expense Added:');
-    
-  } catch (err) {
-    console.log(err);
-    res.status(500).send('Internal Server Error');
-  }
-};
 
 // get expense details of a user
-exports.getExpenseDetails = (req, res, next) => {
-  Expense.findAll({ where: { UserId: currentUserId }})
-    .then((expense)=>res.json(expense))
-    .catch(err => {
+exports.getExpenseDetails = async (req, res, next) => {
+try{
+  const expenses = await Expense.findAll({ where: { userId: req.user.id  }});
+
+   res.status(200).json({ expenses});
+}
+catch(err){
       console.log(err);
       res.status(500).send('Internal Server Error');
-    });
-};
+}
+    }
 
 exports.updateExpense = async (req, res) => {
   const expenseId = req.params.id;
@@ -176,19 +168,11 @@ exports.updateExpense = async (req, res) => {
 };
 
 exports.deleteExpense = async (req, res) => {
-  const expenseId = req.params.id;
 
+  const expenseId = req.params.id
   try {
-    const expense = await Expense.findByPk(expenseId);
-
-    if (!expense) {
-      return res.status(404).json({ error: 'Expense not found' });
-    }
-
-    // Delete the expense
-    await expense.destroy();
-
-    res.json({ message: 'Expense deleted successfully' });
+    await Expense.destroy({ where: { id: expenseId} });
+    return res.status(200).json({ success: true, message: 'Expense deleted successfully' });
   } catch (err) {
     console.error('Error deleting expense:', err);
     res.status(500).json({ error: 'Internal Server Error' });

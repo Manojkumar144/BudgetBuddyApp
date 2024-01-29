@@ -3,7 +3,7 @@ const express = require('express');
 const sequelize = require('./util/database');
 const User = require('./models/user');
 const Expense = require('./models/expense');
-
+const Order = require('./models/order');
 
 const app = express();
 const port = 3000;
@@ -16,6 +16,8 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.json());
 
 app.use('/', require('./routes/user'));
+app.use('/', require('./routes/purchase'));
+
 
 app.get('/', async (req, res) => {
   try {
@@ -29,6 +31,9 @@ app.get('/', async (req, res) => {
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
 // Synchronize models with the database
 sequelize.sync()
