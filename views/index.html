@@ -72,6 +72,7 @@
 axios.post('/dashboard',loginDetails).then(response => {
             alert(response.data.message)
             localStorage.setItem('accessToken',response.data.accessToken)
+            localStorage.setItem('isPremiumUser',response.data.isPremiumUser)
             window.location.href = "/dashboard"
     }).catch(err => {
         console.log(JSON.stringify(err))

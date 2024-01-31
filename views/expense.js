@@ -1,3 +1,18 @@
+const isPremiumUser = localStorage.getItem('isPremiumUser');
+ 
+console.log("inside the premium user",isPremiumUser);//dummy
+if (isPremiumUser === 'true') {
+  // If the user is premium, hide the "Buy Premium" button
+  document.getElementById('buyBtn').style.visibility = "hidden";
+  // Show the "Leaderboard" button
+  document.getElementById('LeaderboardBtn').style.visibility = "visible";
+} else {
+  // If the user is not premium, hide the "Leaderboard" button
+  document.getElementById('LeaderboardBtn').style.visibility = "hidden";
+  // Show the "Buy Premium" button
+  document.getElementById('buyBtn').style.visibility = "visible";
+}
+
 async function submitForm(e) {
 
   const expenseDetails = {
@@ -141,6 +156,7 @@ document.getElementById('buyBtn').onclick = async function (e) {
           console.log(res);
           alert('You are a premium user now');    
           document.getElementById('buyBtn').style.visibility = "hidden";
+          document.getElementById('LeaderboardBtn').style.visibility = "visible";
         }
       };
 
@@ -153,39 +169,10 @@ document.getElementById('buyBtn').onclick = async function (e) {
         alert('Something went wrong');
       });
   } 
-  
 
-  document.getElementById('LeaderboardBtn').onclick = async function (e) {
-      const token = localStorage.getItem('accessToken');
-      const response = await axios.get('/premium/leaderboard', {
-        headers: { "Authorization": token }
-      });
-      console.log('Response...', response);
-    
-      const leaderboardDetails = response.data.leaderboardData; // Assuming the leaderboard data is in the 'leaderboard' property
-      const leaderboard = document.getElementById('leaderboard');
-      leaderboard.innerHTML = '';
-      const ul = document.createElement('ul');
-    
-      // Iterate through the array of leaderboard details
-      leaderboardDetails.forEach((leaderboardItem) => {
-        const li = createLeaderboardDetails(leaderboardItem);
-        ul.appendChild(li);
-      });
-    
-      // Append the new ul to the existing leaderboard element
-      leaderboard.appendChild(ul);
-    }
-
-    function createLeaderboardDetails(leaderboardData) {
-      const li = document.createElement('li');
-      const totalExpense =parseFloat(leaderboardData.totalExpenses).toFixed(2);
-      li.textContent = `${leaderboardData.name} - ${totalExpense} `;
-      li.classList.add('d-flex');
-      
-      return li;
-      }
-
-
+  function handleLeaderboardButtonClick() {
+    // Redirect to the leaderboard page
+    window.location.href = '/showLeaderBoard';
+  }
 
   

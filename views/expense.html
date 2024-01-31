@@ -24,6 +24,28 @@
     
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand active" href="#">Expenses</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+             <li class="nav-item">
+            <button class="btn" type="button" id="buyBtn"  >
+                Buy Premium
+            </button>
+         </li>
+          <li class="nav-item">         
+            <button class="btn" type="button" id="LeaderboardBtn" onclick="handleLeaderboardButtonClick()">
+                Leaderboard
+        </button>
+          </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <div class="container">
       <div class="main-container">
         <div class="form-container">
@@ -57,14 +79,8 @@
         <div class="form-container">
           <h3>Expense Details</h3>
           <div id="userList">
-
           </div>
         </div>
-      </div>
-      <button type="button" class="btn" id="buyBtn" >Buy Premium</button>
-      <button type="button" class="btn" id="LeaderboardBtn" > Leaderboard</button>
-      <div id="leaderboard">
-
       </div>
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -75,6 +91,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="script.js"></script>
+    <script src="expense.js"></script>
   </body>
 </html>

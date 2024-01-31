@@ -1,5 +1,6 @@
 body {
     background-color: #f8f9fa;
+    padding-top: 56px;
 }
 
 form {
@@ -39,8 +40,7 @@ button {
 
 .main-container .btn {
     width: 100%;
-    background-color: rgb(244, 166, 65);
-    
+    background-color: rgb(244, 166, 65); 
 }
 
 .main-container .btn:hover {
@@ -63,15 +63,24 @@ button {
     max-height: 300px; 
 }
 
-#buyBtn {
+
+#LeaderboardBtn {
     position: fixed;
     top: 10px;
     right: 10px;
     background-color: rgb(244, 166, 65);
     color:black;
+    border:none;
 }
 
-#buyBtn:hover{
-   background-color: #FE7A36;
+#LeaderboardBtn:hover{
    color:white;
-}
+} 
+
+  .navbar{
+    background-color: rgb(244, 166, 65);
+  }
+
+  .navbar .btn:hover{
+    color: white;
+  }

@@ -95,7 +95,7 @@ exports.postLoginUser = async (req, res, next) => {
 
     // Password is valid, user is authenticated
     console.log('Successfully logged in');
-    res.status(200).json({success: true, message:`User Logged in succesfully`, accessToken: generateToken(user.id)})
+    res.status(200).json({success: true, message:`User Logged in succesfully`, accessToken: generateToken(user.id),isPremiumUser:user.ispremiumuser});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });

@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 56px;
+}
+
+.form-container {
+    margin-top:50px;
+    margin-left: 50px;
+    width: 30%;
+    height: 200px;
+    overflow: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#Leaderboard{
+    overflow: auto;
+}
+
+#LeaderboardBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(244, 166, 65);
+    color:black;
+    border: none;
+}
+
+#LeaderboardBtn:hover{
+   color:white;
+} 
+
+
+  .navbar{
+    background-color: rgb(244, 166, 65);
+  }
+
+  .navbar .btn:hover{
+    color: white;
+  }
