@@ -18,12 +18,6 @@ exports.purchasepremium = async(req,res) =>{
               throw new Error(JSON.stringify(err));
             }
             else{
-            // console.log('orders', order);
-            console.log('user details',req.user);
-            console.log('After Razorpay order creation...');
-            console.log('order details',order);
-            console.log('order Id',order.id);
-
             req.user.createOrder({ orderid: order.id,  status: 'PENDING'}).then(()=>{
                 return res.status(201).json({ order, key_id: razorPay.key_id});  
             })
@@ -38,7 +32,6 @@ exports.purchasepremium = async(req,res) =>{
         res.status(403).json({ message: 'something went wrong', error: err});
     }
 }
-
 
 exports.updatetransactionstatus = (req, res) => {
     try {

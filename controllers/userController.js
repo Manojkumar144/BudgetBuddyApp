@@ -106,25 +106,30 @@ exports.postAddExpense= async (req, res, next) => {
   console.log('Received form data:', req.body);
   const { amount, description, category} = req.body;
   
-  try {
-    //to get the total expense of a user.
-    const totalexpenses = await Expense.sum('amount', {
-      where: { userId: req.user.id },
-    });
-    
+  try {    
       // Create expense
      await Expense.create({
       amount,
       description,
       category,
       userId: req.user.id,
-      totalexpenses: totalexpenses + parseFloat(amount)
     });
 
-   const expenses= Expense.findAll({
+    const user= await User.findOne({
+      where: { id: req.user.id },
+    });
+
+    const totalExpense = Number(user.totalexpenses) + Number(amount);
+
+    //update total expenses in the user table
+    await User.update({ totalexpenses: totalExpense }, {
+            where: { id: req.user.id }
+        });
+
+   const expenses= await Expense.findAll({
       where: { userId: req.user.id },
     });
-    res.json(expenses)
+    res.json({expenses})
     console.log('Expense Added:');
   }
     catch (err) {

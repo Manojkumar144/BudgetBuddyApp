@@ -24,7 +24,7 @@ window.addEventListener('load', showLeaderboard);
 
   function createLeaderboardDetails(leaderboardData) {
     const li = document.createElement('li');
-    const totalExpense =parseFloat(leaderboardData.totalExpenses).toFixed(2);
+    const totalExpense =parseInt(leaderboardData.totalexpenses);
     li.textContent = `Name :${leaderboardData.name} | TotalExpenses: ${totalExpense} `;
     li.classList.add('d-flex');
     

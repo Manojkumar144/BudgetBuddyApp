@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
-const Expense = require('../models/expense');
 
 const User = sequelize.define('user', {
     id: {
@@ -25,7 +24,11 @@ const User = sequelize.define('user', {
     ispremiumuser: {
         type: Sequelize.BOOLEAN,
         defaultValue:false,
-    }
+    },
+    totalexpenses: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+    },
 });
 
 
