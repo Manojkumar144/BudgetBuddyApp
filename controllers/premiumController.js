@@ -2,12 +2,12 @@ require('dotenv').config(); // to utilize the environment variable in .env file
 const User = require('../models/user');
 const Expense = require('../models/expense');
 const path =require('path');
-const Sequelize = require('sequelize');
+const sequelize = require('../util/database');
 
 exports.getLeaderboardDetails = async (req, res) => {
     try {
       const leaderboardData = await User.findAll({
-        attributes: ['id', 'name', [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('Expenses.totalexpenses')), 0), 'totalExpenses']],
+        attributes: ['id', 'name', [sequelize.fn('COALESCE', sequelize.col('Expenses.totalexpenses'),0), 'totalExpenses'],],
         include: [
           {
             model: Expense,
@@ -15,12 +15,12 @@ exports.getLeaderboardDetails = async (req, res) => {
             duplicating: false,
           },
         ],
-        group: ['User.id', 'name'],
+        group: ['User.id', 'name', 'Expenses.totalexpenses'],
         order: [
-          [Sequelize.fn('SUM', Sequelize.col('Expenses.totalexpenses')), 'ASC'],
+          ['totalExpenses', 'ASC'],
         ],
       });
-  
+      
       // Send the leaderboard data as JSON response
       res.status(200).json({ leaderboardData });
     } catch (error) {

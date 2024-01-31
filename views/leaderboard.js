@@ -5,7 +5,7 @@ window.addEventListener('load', showLeaderboard);
     const response = await axios.get('/premium/leaderboard', {
       headers: { "Authorization": token }
     });
-  
+    
     const leaderboardDetails = response.data.leaderboardData; 
 
     const leaderboard = document.getElementById('leaderboard');

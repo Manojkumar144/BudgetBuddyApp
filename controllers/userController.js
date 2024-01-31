@@ -83,7 +83,6 @@ exports.postLoginUser = async (req, res, next) => {
 
     // Check if the provided password matches the stored password
     if (!isPassword) {
-
       // Password doesn't match
       return res.status(401).send(`
         <script>
