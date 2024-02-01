@@ -4,7 +4,7 @@ const Expense = require('../models/expense');
 const path =require('path');
 const bcrypt =require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const sequelize = require('../util/database');
 
 function generateToken(id)
 {
@@ -104,6 +104,7 @@ exports.postLoginUser = async (req, res, next) => {
 //Add Expense details of a user
 exports.postAddExpense= async (req, res, next) => {
   console.log('Received form data:', req.body);
+  const t  = await sequelize.transaction();
   const { amount, description, category} = req.body;
   
   try {    
@@ -113,27 +114,26 @@ exports.postAddExpense= async (req, res, next) => {
       description,
       category,
       userId: req.user.id,
-    });
+    },{transaction:t});
 
-    const user= await User.findOne({
-      where: { id: req.user.id },
-    });
-
-    const totalExpense = Number(user.totalexpenses) + Number(amount);
+    const totalExpense = Number(req.user.totalexpenses) + Number(amount);
 
     //update total expenses in the user table
     await User.update({ totalexpenses: totalExpense }, {
-            where: { id: req.user.id }
+            where: { id: req.user.id },
+            transaction:t        
         });
 
-   const expenses= await Expense.findAll({
+        await t.commit();
+
+     const expenses= await Expense.findAll({
       where: { userId: req.user.id },
     });
     res.json({expenses})
     console.log('Expense Added:');
   }
     catch (err) {
-      console.log(err);
+      await t.rollback();
       res.status(500).send('Internal Server Error');
     }  
   } 
@@ -178,12 +178,25 @@ exports.updateExpense = async (req, res) => {
 };
 
 exports.deleteExpense = async (req, res) => {
+  const t  = await sequelize.transaction();
 
   const expenseId = req.params.id
   try {
-    await Expense.destroy({ where: { id: expenseId} });
+    const expense = await Expense.findByPk(expenseId);
+    const expenseAmount = expense.amount;
+    await Expense.destroy({ where: { id: expenseId}, transaction:t });
+
+    const updatedTotalExpense = Number(req.user.totalexpenses) - Number(expenseAmount);
+
+    await User.update({ totalexpenses: updatedTotalExpense }, {
+      where: { id: req.user.id },
+      transaction:t
+  });
+
+     await t.commit();
     return res.status(200).json({ success: true, message: 'Expense deleted successfully' });
   } catch (err) {
+    t.rollback();
     console.error('Error deleting expense:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   }

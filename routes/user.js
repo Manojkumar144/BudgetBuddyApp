@@ -15,10 +15,10 @@ router.post('/add-expense',authenticateMiddleware.authenticateToken, userControl
 router.get('/api/expense',authenticateMiddleware.authenticateToken, userController.getExpenseDetails);
 
 // API to handle expense update
-router.put('/api/expense/:id', userController.updateExpense);
+router.put('/api/expense/:id',authenticateMiddleware.authenticateToken, userController.updateExpense);
 
 // API to handle expense deletion
-router.delete('/api/expense/:id', userController.deleteExpense);
+router.delete('/api/expense/:id',authenticateMiddleware.authenticateToken, userController.deleteExpense);
 
 router.get('/dashboard', userController.getDashboard);
 
