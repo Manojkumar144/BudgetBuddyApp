@@ -17,7 +17,7 @@ body {
 
 .main-container {
     width: 300px;
-    height:350px;
+    height:380px;
     padding: 20px;
     border-radius:8px;
     backdrop-filter: blur(10px);
@@ -89,12 +89,12 @@ small{
     background-color: transparent;
 }
 
-.account{
+.account, .forgotpassword{
 color:black;
 text-decoration: none;
 cursor: pointer;
 }
 
-.account:hover{
+.account:hover, .forgotpassword:hover{
     color:white;
 }
