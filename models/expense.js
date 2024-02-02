@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
-const User = require('../models/user');
 const Expense = sequelize.define('expense', {
     id: {
         type: Sequelize.INTEGER,
@@ -21,6 +20,5 @@ const Expense = sequelize.define('expense', {
         allowNull: false
     }
 });
-
 
 module.exports = Expense;

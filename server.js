@@ -4,6 +4,7 @@ const sequelize = require('./util/database');
 const User = require('./models/user');
 const Expense = require('./models/expense');
 const Order = require('./models/order');
+const Forgotpassword = require("./models/forgotpassword");
 
 const app = express();
 const port = 3000;
@@ -21,8 +22,6 @@ app.use('/', require('./routes/premium'));
 app.use('/', require('./routes/forgotPassword'));
 
 
-
-
 app.get('/', async (req, res) => {
   try {
     res.sendFile(path.join(__dirname, './views', 'index.html'))
@@ -38,6 +37,9 @@ Expense.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 // Synchronize models with the database
 sequelize.sync()

@@ -1,37 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
     <title>Forgot Password</title>
-    <style>
-        body{
-            background-color: #f2f2f2;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 16px;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        input{
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }        
-        </style>
+    <link rel="stylesheet" href="resetStyles.css" />
 </head>
 <body>
+
+<div class="container">
     <form id="forgot-password-form" onsubmit="forgotPassword(event)">
-        <label for="eamil">Email:</label>
-        <input type="text" class="entry-field" id="email" required>
-        <button type="submit">Submit</button>
+        <h2>Forgot Password?</h2>
+        <small>Enter your email and we'll send you a link to reset your password to your email.</small>  
+        <input type="email" id="email" placeholder="Your email">
+        <button type="submit">Submit</button>  
+        <a href="/">Back to Login</a>
     </form>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     
     async function forgotPassword(event){
@@ -49,4 +42,5 @@
     }
 }
 </script>
+</body>
 </html>
