@@ -6,9 +6,15 @@ if (isPremiumUser === 'true') {
   document.getElementById('buyBtn').style.visibility = "hidden";
   // Show the "Leaderboard" button
   document.getElementById('LeaderboardBtn').style.visibility = "visible";
+
+  document.getElementById('downloadBtn').style.visibility = "visible";
+
+
 } else {
   // If the user is not premium, hide the "Leaderboard" button
   document.getElementById('LeaderboardBtn').style.visibility = "hidden";
+
+  document.getElementById('downloadBtn').style.visibility = "hidden";
   // Show the "Buy Premium" button
   document.getElementById('buyBtn').style.visibility = "visible";
 }
@@ -173,6 +179,14 @@ document.getElementById('buyBtn').onclick = async function (e) {
   function handleLeaderboardButtonClick() {
     // Redirect to the leaderboard page
     window.location.href = '/showLeaderBoard';
+  }
+
+
+
+  
+  function handleDownloadBtnClick() {
+    // Redirect to the leaderboard page
+    window.location.href = '/download';
   }
 
   

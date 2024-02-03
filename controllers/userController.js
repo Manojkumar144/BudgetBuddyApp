@@ -205,3 +205,7 @@ exports.deleteExpense = async (req, res) => {
 exports.getDashboard = (req, res) => {
   res.sendFile(path.join(__dirname, '../views', '/expense.html'));
 };
+
+exports.getDownload = (req, res) => {
+  res.sendFile(path.join(__dirname, '../views', '/download.html'));
+};

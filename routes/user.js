@@ -22,4 +22,6 @@ router.delete('/api/expense/:id',authenticateMiddleware.authenticateToken, userC
 
 router.get('/dashboard', userController.getDashboard);
 
+router.get('/download', userController.getDownload);
+
 module.exports = router;

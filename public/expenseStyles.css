@@ -63,20 +63,6 @@ button {
     max-height: 300px; 
 }
 
-
-#LeaderboardBtn {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background-color: rgb(244, 166, 65);
-    color:black;
-    border:none;
-}
-
-#LeaderboardBtn:hover{
-   color:white;
-} 
-
   .navbar{
     background-color: rgb(244, 166, 65);
   }
@@ -84,3 +70,8 @@ button {
   .navbar .btn:hover{
     color: white;
   }
+
+  #buyBtn, #LeaderboardBtn, #downloadBtn{
+    border:none;
+}
+

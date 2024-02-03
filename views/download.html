@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Expense and Income Tracker</title>
+    <link rel="stylesheet" href="/downloadStyles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Expense and Income Tracker</h2>
+        <div>
+            <label for="dateFilter">Filter by Date:</label>
+            <input type="date" id="dateFilter" onchange="filterData()">
+        </div>
+        <table id="expenseTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be populated dynamically using JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="download.js"></script>
+</body>
+</html>
