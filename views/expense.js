@@ -184,9 +184,28 @@ document.getElementById('buyBtn').onclick = async function (e) {
 
 
   
-  function handleDownloadBtnClick() {
-    // Redirect to the leaderboard page
-    window.location.href = '/download';
+  async function handleDownloadBtnClick() {
+
+    const token =localStorage.getItem('accessToken');
+  await axios.get('/download',{
+    headers:{
+      'Authorization':  token,
+    }
+  }).then((response)=>{
+    if(response.status ===200){
+      var a = document.createElement('a');
+      a.href=response.data.fileUrl;
+      a.download='myexpense.csv';
+      a.click();
+    }
+    else{
+      throw new Error(response.data.message);
+    }
+  })
+  .catch(err =>{
+    console.log('somwething went wrong in the download expense', err);
+  })
+    
   }
 
   

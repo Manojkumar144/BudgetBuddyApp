@@ -5,6 +5,7 @@ const path =require('path');
 const bcrypt =require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../util/database');
+const AWS = require('aws-sdk');
 
 function generateToken(id)
 {
@@ -206,6 +207,50 @@ exports.getDashboard = (req, res) => {
   res.sendFile(path.join(__dirname, '../views', '/expense.html'));
 };
 
-exports.getDownload = (req, res) => {
-  res.sendFile(path.join(__dirname, '../views', '/download.html'));
+function uploadToS3(data, filename) {
+  const BUCKET_NAME = process.env.BUCKET_NAME;
+  const IAM_USER_KEY =process.env.IAM_USER_KEY;
+  const IAM_USER_SECRET_KEY = process.env.IAM_USER_SECRET_KEY;
+
+  const s3bucket = new AWS.S3({
+      accessKeyId: IAM_USER_KEY,
+      secretAccessKey: IAM_USER_SECRET_KEY,
+  });
+
+  const params = {
+      Bucket: BUCKET_NAME,
+      Key: filename,
+      Body: data,
+      ACL:'public-read'
+  };
+ 
+  return new Promise((resolve,reject)=>{
+    s3bucket.upload(params, (err, s3response) => {
+      if (err) {
+          console.log('Something went wrong while uploading to S3', err);
+          reject(err);
+      } else {
+          console.log('Success', s3response);
+           resolve(s3response.Location);
+      }
+  });
+  })
+}
+
+exports.getDownloadExpense = async (req, res) => {
+  try{
+    const expenses = await req.user.getExpenses();
+ const stringifiedExpenses = JSON.stringify(expenses);
+    const userId= req.user.id;
+    const filename = `Expense${userId}/${new Date()}.txt`
+  const fileUrl= await uploadToS3(stringifiedExpenses, filename);
+  res.status(200).json({fileUrl, success:true});
+  }
+  catch(err){
+    console.log(err);
+  res.status(500).json({fileUrl:'', success:false, err:err});
+  }
+  
 };
+
+
