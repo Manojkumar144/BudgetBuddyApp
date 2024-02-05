@@ -144,22 +144,22 @@ exports.postAddExpense= async (req, res, next) => {
 exports.getExpenseDetails = async (req, res, next) => {
 try{
   const page = parseInt(req.query.page)||1;
-  const limit = 10;
+  const limit = parseInt(req.query.limit) || 5;
 
   const offset = (page-1) *limit;
-  const expenses = await Expense.findAll({ 
+
+  const expenses = await Expense.findAndCountAll({ 
     where: { userId: req.user.id  },
     limit:limit,
     offset:offset
   });
    
   const totalExpenses = expenses.count;
+  console.log("Inside Get expense details... Totalexpense :",totalExpenses);
   const totalPages = Math.ceil(totalExpenses / limit);
 
-  //  res.status(200).json({ expenses});
-
    return res.status(200).json({
-    expenses: expenses,
+    expenses: expenses.rows || [],
     success: true,
     totalPages: totalPages
 });

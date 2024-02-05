@@ -1,7 +1,7 @@
 const isPremiumUser = localStorage.getItem('isPremiumUser');
 const storedPage = localStorage.getItem('currentPage');
 currentPage = storedPage ? parseInt(storedPage) : 1;
-const PAGE_SIZE = 5;  
+let PAGE_SIZE = 5;  
 
 console.log("inside the premium user",isPremiumUser);//dummy
 if (isPremiumUser === 'true') {
@@ -23,7 +23,6 @@ if (isPremiumUser === 'true') {
 }
 
 async function submitForm(e) {
-
   const expenseDetails = {
       amount: e.target.amount.value,
       description: e.target.description.value,
@@ -44,23 +43,22 @@ async function submitForm(e) {
   })
 }
 
-function showUserList(response) {
-  console.log("Inside the showUserList...")
-const userListDiv = document.getElementById('userList');
-userListDiv.innerHTML = '';
-const ul = document.createElement('ul');
-
-const expense = response.data.expenses;
+function showUserList(expenses) {
+  console.log("Inside the showUserList...");
+  const userListDiv = document.getElementById('userList');
+  userListDiv.innerHTML = '';
+  const ul = document.createElement('ul');
 
   // Iterate through the array of expenses
-  expense.forEach((expenseItem) => {
+  expenses.forEach((expenseItem) => {
     const li = createListItem(expenseItem);
     ul.appendChild(li);
   });
 
-// Append the new ul to the existing userListDiv
-userListDiv.appendChild(ul);
+  // Append the new ul to the existing userListDiv
+  userListDiv.appendChild(ul);
 }
+
 
 function createListItem(expense) {
 const li = document.createElement('li');
@@ -83,20 +81,30 @@ li.appendChild(deleteButton);
 return li;
 }
 
-async function fetchUsers(page) {
-  const token =localStorage.getItem('accessToken');
-  await axios.get(`api/expense?page=${page}&limit=${PAGE_SIZE}`,{
-    headers:{
-      'Authorization':  token,
-    }
-  }).then((expenses)=>{
-    showUserList(expenses);
-  })
-  .catch(err =>{
-    console.log('unable to fetch user details', err);
-  })
-  
+function changeItemsPerPage(itemsPerPage) {
+  PAGE_SIZE = itemsPerPage; 
+  fetchUsers(currentPage, PAGE_SIZE); 
 }
+
+async function fetchUsers(page, limit) {
+  const token = localStorage.getItem('accessToken');
+  try {
+    const response = await axios.get(`api/expense?page=${page}&limit=${limit}`, {
+      headers: {
+        'Authorization': token,
+      }
+    });
+    console.log("Inside Fetch Users , response :",response);
+
+     console.log("Inside Fetch Users , totalpages :",response.data.totalPages);
+    const expenses = response.data.expenses || [];
+    showUserList(expenses);
+    updatePaginationControls(response.data.totalPages);
+  } catch (err) {
+    console.log('Unable to fetch user details', err);
+  }
+}
+
 
 async function editUser(expenseId) {
 const newAmount = prompt('Enter the new amount:');
@@ -180,9 +188,6 @@ document.getElementById('buyBtn').onclick = async function (e) {
     // Redirect to the leaderboard page
     window.location.href = '/showLeaderBoard';
   }
-
-
-
   
   async function handleDownloadBtnClick() {
 
@@ -204,24 +209,62 @@ document.getElementById('buyBtn').onclick = async function (e) {
   })
   .catch(err =>{
     console.log('somwething went wrong in the download expense', err);
-  })
-    
+  }) 
   }
 
+  window.addEventListener('DOMContentLoaded', () => {
+    // Initial fetch with default values
+    fetchUsers(currentPage, PAGE_SIZE);
 
-  window.addEventListener('DOMContentLoaded', ()=>{
-
-    fetchUsers(currentPage)
     document.getElementById('pagination').addEventListener('click', (e) => {
         if (e.target.classList.contains('pagination-btn')) {
             const newPage = parseInt(e.target.getAttribute('data-page'));
             if (newPage !== currentPage) {
                 currentPage = newPage;
-                fetchUsers(currentPage);
+                fetchUsers(currentPage,PAGE_SIZE);
                 localStorage.setItem('currentPage', currentPage);
             }
         }
     });
-});
   
-  // Fetch initial user list on page load
+    // Event listener for itemsPerPage dropdown
+    document.getElementById('itemsPerPageDropdown').addEventListener('change', (e) => {
+      const newLimit = parseInt(e.target.value);
+      changeItemsPerPage(newLimit);
+    });
+  });
+
+  function updatePaginationControls(totalPages) {
+    let paginationHtml = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === currentPage) {
+          // Apply inline styles for the active state
+          paginationHtml += `<button class="btn pagination-btn active" style="background-color: #ffe3bb; height: 50px; width: 30px;" data-page="${i}">${i}</button>`;
+      } else {
+          // Apply inline styles for the normal state
+          paginationHtml += `<button class="btn pagination-btn" style="height: 30px; width: 30px;" data-page="${i}">${i}</button>`;
+      }
+    }
+
+    document.getElementById('pagination').innerHTML = paginationHtml;
+    const pageButtons = document.querySelectorAll('.pagination-btn');
+    pageButtons.forEach(button => {
+        button.classList.remove('active');
+        if (parseInt(button.getAttribute('data-page')) === currentPage) {
+            button.classList.add('active');
+        }
+    });
+}
+
+function handlePagination(e) {
+  if (e.target.classList.contains('pagination-btn')) {
+      const newPage = parseInt(e.target.getAttribute('data-page'));
+      if (newPage !== currentPage) {
+          currentPage = newPage;
+          fetchAndDisplayExpenses(currentPage);
+          localStorage.setItem('currentPage', currentPage);
+      }
+  }
+}
+  

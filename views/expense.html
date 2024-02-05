@@ -82,11 +82,24 @@
             <button type="submit" class="btn">Add Expense</button>
           </form>
         </div>
-        <div class="form-container">
+        <div class="form-container2">
           <h3>Expense Details</h3>
           <div id="userList">
           </div>
           <div class="pagination-container" id="pagination"></div>
+          <div class="limit-container">
+            <label for="itemsPerPage"></label>
+            <div class="dropdown">
+              <button class="btn dropdown-toggle" type="button" id="itemsPerPageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              </button>
+              <div class="dropdown-menu" aria-labelledby="itemsPerPageDropdown">
+                <a class="dropdown-item" href="#" onclick="changeItemsPerPage(5)">5</a>
+                <a class="dropdown-item" href="#" onclick="changeItemsPerPage(10)">10</a>
+               <a class="dropdown-item" href="#" onclick="changeItemsPerPage(20)">20</a>
+               <a class="dropdown-item" href="#" onclick="changeItemsPerPage(50)">50</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

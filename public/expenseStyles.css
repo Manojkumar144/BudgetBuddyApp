@@ -30,12 +30,17 @@ button {
     margin-bottom: 20px;
 }
 
-.form-container {
+.form-container, .form-container2 {
     margin-top:50px;
     width: 48%;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container2{
+    position: relative;
+
 }
 
 .main-container .btn {
@@ -75,3 +80,31 @@ button {
     border:none;
 }
 
+.limit-container{
+    position:absolute;
+    top:-20px;
+    right: 2%; 
+    width:8%;
+     height:2%;  
+}
+
+#pagination {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.pagination-btn {
+    background-color: rgb(244, 166, 65);
+    color: white;
+    height: 30px;
+    width: 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
