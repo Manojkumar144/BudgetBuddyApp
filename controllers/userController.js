@@ -143,9 +143,26 @@ exports.postAddExpense= async (req, res, next) => {
 // get expense details of a user
 exports.getExpenseDetails = async (req, res, next) => {
 try{
-  const expenses = await Expense.findAll({ where: { userId: req.user.id  }});
+  const page = parseInt(req.query.page)||1;
+  const limit = 10;
 
-   res.status(200).json({ expenses});
+  const offset = (page-1) *limit;
+  const expenses = await Expense.findAll({ 
+    where: { userId: req.user.id  },
+    limit:limit,
+    offset:offset
+  });
+   
+  const totalExpenses = expenses.count;
+  const totalPages = Math.ceil(totalExpenses / limit);
+
+  //  res.status(200).json({ expenses});
+
+   return res.status(200).json({
+    expenses: expenses,
+    success: true,
+    totalPages: totalPages
+});
 }
 catch(err){
       console.log(err);

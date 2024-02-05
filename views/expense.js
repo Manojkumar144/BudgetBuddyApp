@@ -1,5 +1,8 @@
 const isPremiumUser = localStorage.getItem('isPremiumUser');
- 
+const storedPage = localStorage.getItem('currentPage');
+currentPage = storedPage ? parseInt(storedPage) : 1;
+const PAGE_SIZE = 5;  
+
 console.log("inside the premium user",isPremiumUser);//dummy
 if (isPremiumUser === 'true') {
   // If the user is premium, hide the "Buy Premium" button
@@ -80,9 +83,9 @@ li.appendChild(deleteButton);
 return li;
 }
 
-async function fetchUsers() {
+async function fetchUsers(page) {
   const token =localStorage.getItem('accessToken');
-  await axios.get('api/expense',{
+  await axios.get(`api/expense?page=${page}&limit=${PAGE_SIZE}`,{
     headers:{
       'Authorization':  token,
     }
@@ -133,9 +136,6 @@ await axios.delete(`/api/expense/${expenseId}`,
 })
 }
 }
-
-// Fetch initial user list on page load
-fetchUsers();
 
 document.getElementById('buyBtn').onclick = async function (e) {
   
@@ -208,4 +208,20 @@ document.getElementById('buyBtn').onclick = async function (e) {
     
   }
 
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+
+    fetchUsers(currentPage)
+    document.getElementById('pagination').addEventListener('click', (e) => {
+        if (e.target.classList.contains('pagination-btn')) {
+            const newPage = parseInt(e.target.getAttribute('data-page'));
+            if (newPage !== currentPage) {
+                currentPage = newPage;
+                fetchUsers(currentPage);
+                localStorage.setItem('currentPage', currentPage);
+            }
+        }
+    });
+});
   
+  // Fetch initial user list on page load
