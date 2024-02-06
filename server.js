@@ -5,9 +5,14 @@ const User = require('./models/user');
 const Expense = require('./models/expense');
 const Order = require('./models/order');
 const Forgotpassword = require("./models/forgotpassword");
+const dotenv =require("dotenv");
+dotenv.config()
+const helmet =require("helmet");
+const morgan = require('morgan');
+const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.set('views', 'views');
 
@@ -20,6 +25,13 @@ app.use('/', require('./routes/user'));
 app.use('/', require('./routes/purchase'));
 app.use('/', require('./routes/premium'));
 app.use('/', require('./routes/forgotPassword'));
+
+const accessLogStream =fs.createWriteStream(path.join(__dirname,'access.log'),{
+  flags:'a'
+});
+
+app.use(helmet());
+app.use(morgan('combined',{ stream: accessLogStream}));
 
 
 app.get('/', async (req, res) => {
