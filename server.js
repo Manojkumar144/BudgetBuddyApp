@@ -1,3 +1,5 @@
+const dotenv =require("dotenv");
+dotenv.config()
 const path = require ('path');
 const express = require('express');
 const sequelize = require('./util/database');
@@ -5,8 +7,6 @@ const User = require('./models/user');
 const Expense = require('./models/expense');
 const Order = require('./models/order');
 const Forgotpassword = require("./models/forgotpassword");
-const dotenv =require("dotenv");
-dotenv.config()
 const helmet =require("helmet");
 const morgan = require('morgan');
 const fs = require('fs');
