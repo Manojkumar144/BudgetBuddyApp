@@ -4,7 +4,7 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: url('images/backgroundImage.jpg') no-repeat;
+    background: url('/images/backgroundImage.jpg') no-repeat;
     background-size: cover;
     background-position: center;
 
@@ -51,7 +51,7 @@ input img{
 }
 
 .form-control.emailIcon {
-    background-image: url('images/emailIcon.png');
+    background-image: url('/images/emailIcon.png');
     background-size: 20px;
     background-repeat: no-repeat;
     background-position: 10px center; 
@@ -59,7 +59,7 @@ input img{
 }
 
 .form-control.passwordIcon {
-    background-image: url('images/PasswordIcon.png');
+    background-image: url('/images/PasswordIcon.png');
     background-size: 20px; 
     background-repeat: no-repeat;
     background-position: 10px center;
@@ -67,7 +67,7 @@ input img{
 }
 
 .form-control.userName {
-    background-image: url('images/username.png');
+    background-image: url('/images/username.png');
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: 10px center; 
