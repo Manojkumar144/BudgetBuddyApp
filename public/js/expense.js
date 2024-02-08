@@ -208,7 +208,7 @@ document.getElementById('buyBtn').onclick = async function (e) {
     }
   })
   .catch(err =>{
-    console.log('somwething went wrong in the download expense', err);
+    console.log('something went wrong in the download expense', err);
   }) 
   }
 

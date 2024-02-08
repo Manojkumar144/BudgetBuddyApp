@@ -115,7 +115,6 @@ const forgotPassword = async (req, res) => {
         (resetpasswordrequest) => {
           User.findOne({ where: { id: resetpasswordrequest.userId } }).then(
             (user) => {
-              // console.log('userDetails', user)
               if (user) {
                 //encrypt the password
                 const saltRounds = 10;

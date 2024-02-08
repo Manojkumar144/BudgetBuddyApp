@@ -1,4 +1,4 @@
-require('dotenv').config(); // to utilize the environment variable in .env file 
+require('dotenv').config(); 
 const User = require('../models/user');
 const path =require('path');
 
