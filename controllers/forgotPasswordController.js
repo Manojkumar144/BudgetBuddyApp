@@ -6,6 +6,7 @@ dotenv.config()
 const User = require("../models/user")
 const Forgotpassword = require("../models/forgotpassword");
 const path=require('path');
+const fs = require('fs');
 
 const defaultClient = Sib.ApiClient.instance;
 const apiKey = defaultClient.authentications["api-key"];
@@ -44,8 +45,85 @@ const forgotPassword = async (req, res) => {
           sender,
           to: recievers,
           htmlContent: `
-                        <h1>Kindly reset the password through below link...</h1>
-                        <a href="${process.env.WEBSITE}/resetpassword/${id}">Reset password</a>
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Password Reset</title>
+              <style>
+                  
+          body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              margin: 0;
+              padding: 0;
+              text-align: center;
+            font-family: 'Lato', sans-serif;
+          }
+          .container {
+              max-width: 400px;
+              margin: 0 auto;
+              padding: 20px;
+          }
+          .header {
+              background-color: rgb(244, 166, 65);
+              color: #fff;
+              padding: 10px;
+          }
+          .content {
+              background-color: #fff;
+              padding: 20px;
+              border: 1px solid rgb(239, 151, 19);
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          .footer {
+              margin-top: 20px;
+              color: #555;
+          }
+          .button {
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: rgb(244, 166, 65);
+              color: #fff;
+              text-decoration: none;
+              border-radius: 5px;
+          }
+          
+          .logo {
+              margin-bottom: 20px;
+          }
+          
+          .logo img {
+              width: 100px; 
+              height: auto;
+              display: block;
+              margin: 0 auto;
+          }
+                    
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <div class="header">
+                      <h2>Password Reset</h2>
+                  </div>
+                  <div class="content">
+                    <div style="text-align: left;">
+                  <p>Hello User,</p>
+                  <p>We have sent you this email in response to your request to reset your password on Buddget Buddy.</p>
+                  <p>To reset your password, please follow the link below:</p>
+              </div>
+                    <a class="button" href="${process.env.WEBSITE}/resetpassword/${id}">Reset Password</a>
+                      <p><i>If you didn't request a password reset, you can ignore this email.<i></p>
+               
+                  </div>
+                  <div class="footer">
+                      <p>&copy; 2024 Buddget Buddy</p>
+                  </div>
+              </div>
+          </body>
+          </html>
                     `,
         })
         .then((result) => {
@@ -66,6 +144,7 @@ const forgotPassword = async (req, res) => {
     res.status(500).json({ message: error, sucess: false });
   }
 };
+
 
 
   const forgetPassPage = (req, res) => {

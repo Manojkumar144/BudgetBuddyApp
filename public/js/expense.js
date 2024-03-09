@@ -256,15 +256,4 @@ document.getElementById('buyBtn').onclick = async function (e) {
         }
     });
 }
-
-function handlePagination(e) {
-  if (e.target.classList.contains('pagination-btn')) {
-      const newPage = parseInt(e.target.getAttribute('data-page'));
-      if (newPage !== currentPage) {
-          currentPage = newPage;
-          fetchAndDisplayExpenses(currentPage);
-          localStorage.setItem('currentPage', currentPage);
-      }
-  }
-}
   

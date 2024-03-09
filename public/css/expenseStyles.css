@@ -38,7 +38,6 @@ button {
 
 .form-container2{
     position: relative;
-
 }
 
 .main-container .btn {
@@ -87,7 +86,7 @@ button {
 }
 
 #pagination {
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -95,6 +94,8 @@ button {
     gap: 10px;
     justify-content: center;
     width: 100%;
+    margin-top: auto;
+    margin-bottom: 10px;
 }
 
 .pagination-btn {
@@ -105,4 +106,17 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 0px;
 }
+
+@media only screen and (max-width: 768px) {
+    .main-container {
+      flex-direction: column;
+    }
+  
+    .form-container,
+    .form-container2 {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
